@@ -12,7 +12,9 @@
 
 // Just to test that setting the passcode delegate here works.
 // You can uncomment below and comment it inside LTHDemoViewController.
-@interface LTHAppDelegate () <LTHPasscodeViewControllerDelegate>
+@interface LTHAppDelegate () <LTHPasscodeViewControllerDataSource, LTHPasscodeViewControllerDelegate>
+
+@property (nonatomic, strong) NSString *storage;
 
 @end
 
@@ -23,24 +25,63 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
 	
-	LTHDemoViewController *demoController = [[LTHDemoViewController alloc] init];
-	demoController.title = nil;
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: demoController];
+//    LTHDemoViewController *demoController = [[LTHDemoViewController alloc] init];
+//    demoController.title = nil;
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: demoController];
 //	UITabBarController *navController = [[UITabBarController alloc] init];
 //	[navController addChildViewController: demoController];
-	self.window.rootViewController = navController;
-	[self.window makeKeyAndVisible];
-	
+//    self.window.rootViewController = navController;
+//    [self.window makeKeyAndVisible];
+
 //    [LTHPasscodeViewController sharedUser].delegate = self;
 //    [LTHPasscodeViewController useKeychain:YES];
-	if ([LTHPasscodeViewController doesPasscodeExist] &&
-        [LTHPasscodeViewController didPasscodeTimerEnd]) {
-        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
-                                                                 withLogout:NO
-                                                             andLogoutTitle:nil];
-	}
-	
+//    if ([LTHPasscodeViewController doesPasscodeExist] &&
+//        [LTHPasscodeViewController didPasscodeTimerEnd]) {
+//        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+//                                                                 withLogout:NO
+//                                                             andLogoutTitle:nil];
+//    }
+
+    LTHPasscodeViewController *vc = [[LTHPasscodeViewController alloc] initWithMode:LTHPasscodeViewControllerModeUnlock];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+
+    self.storage = @"1111";
+    vc.dataSource = self;
+    vc.delegate = self;
+    vc.maxNumberOfAllowedFailedAttempts = 5;
+
+    UIViewController *rootvc = [[UIViewController alloc] init];
+
+    self.window.rootViewController = rootvc;
+    [self.window makeKeyAndVisible];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [rootvc presentViewController:nc animated:true completion:nil];
+    });
+
     return YES;
+}
+
+
+
+- (BOOL)allowsUnlockingWithBiometrics {
+    return NO;
+}
+
+- (nonnull NSString *)getPasscodeValue {
+    return self.storage;
+}
+
+- (void)setPasscodeValue:(nullable NSString *)passcode {
+    self.storage = passcode;
+}
+
+- (void)passcodeViewControllerDidEnterCorrectPasscode:(LTHPasscodeViewController *)viewController {
+    [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(LTHPasscodeViewController *)viewController {
+    [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
