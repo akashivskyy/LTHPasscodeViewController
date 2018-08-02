@@ -68,7 +68,7 @@
     return NO;
 }
 
-- (nonnull NSString *)getPasscodeValue {
+- (nullable NSString *)getPasscodeValue {
     return self.storage;
 }
 

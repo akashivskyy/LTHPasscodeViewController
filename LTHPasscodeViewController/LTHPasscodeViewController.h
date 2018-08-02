@@ -151,13 +151,11 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
 
-/**
- @brief Called right before the passcode view controller will be dismissed or popped.
- */
+
+/// Called right before the passcode view controller will be dismissed or popped.
 - (void)passcodeViewControllerDidEnterCorrectPasscode:(nonnull LTHPasscodeViewController *)viewController;
-/**
- @brief Called when the max number of failed attempts has been reached.
- */
-- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(nonnull LTHPasscodeViewController *)viewController;
+
+/// Called when the max number of failed attempts has been reached.
+- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(nonnull LTHPasscodeViewController *)viewController NS_SWIFT_NAME(passcodeViewControllerDidReachMaxNumberOfFailedAttempts(_:));
 
 @end
