@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 // MARK: Initialization
 
 /// Initialize with a mode.
-- (instancetype)initWithMode:(LTHPasscodeViewControllerMode)mode NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithMode:(LTHPasscodeViewControllerMode)mode NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable initializer.
 - (instancetype)init NS_UNAVAILABLE;
@@ -93,7 +93,7 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 @property (nonnull, nonatomic, strong) NSString *errorMismatchString;
 
 /// The string displayed while user unlocks with Biometrics.
-@property (nonatomic, strong) NSString *biometricsDetailsString;
+@property (nonnull, nonatomic, strong) NSString *biometricsDetailsString;
 
 // MARK: Spacing
 
@@ -141,7 +141,7 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 @protocol LTHPasscodeViewControllerDataSource <NSObject>
 @required
 
-- (nonnull NSString *)getPasscodeValue;
+- (nullable NSString *)getPasscodeValue;
 - (void)setPasscodeValue:(nullable NSString *)passcode;
 - (BOOL)allowsUnlockingWithBiometrics;
 
@@ -154,10 +154,10 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 /**
  @brief Called right before the passcode view controller will be dismissed or popped.
  */
-- (void)passcodeViewControllerDidEnterCorrectPasscode:(LTHPasscodeViewController *)viewController;
+- (void)passcodeViewControllerDidEnterCorrectPasscode:(nonnull LTHPasscodeViewController *)viewController;
 /**
  @brief Called when the max number of failed attempts has been reached.
  */
-- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(LTHPasscodeViewController *)viewController;
+- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(nonnull LTHPasscodeViewController *)viewController;
 
 @end
