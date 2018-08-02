@@ -20,7 +20,6 @@
     "https://rolandleth.com/assets/ios7-style-passcode/change-passcode-screenshot.png"
   ],
   "source_files": "LTHPasscodeViewController/*.{h,m}",
-  "resources": "Localizations/**",
   "frameworks": "QuartzCore",
   "requires_arc": true,
   "platforms": {
