@@ -1229,6 +1229,7 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
 
 - (instancetype)initWithMode:(LTHPasscodeViewControllerMode)mode {
     if ((self = [super initWithNibName:nil bundle:nil])) {
+        _mode = mode;
         [self _commonInit];
     }
     return self;
