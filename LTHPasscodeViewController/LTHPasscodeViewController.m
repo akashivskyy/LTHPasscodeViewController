@@ -937,7 +937,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         [self.delegate passcodeViewControllerDidReachMaxNumberOfFailedAttempts:self];
     }
     
-    NSString *translationText = [NSString stringWithFormat:self.errorFailedAttemptsString, @(_failedAttempts)];
+    NSString *translationText = [NSString stringWithFormat:self.errorFailedAttemptsString, _failedAttempts];
 
     // To give it some padding. Since it's center-aligned,
     // it will automatically distribute the extra space.
