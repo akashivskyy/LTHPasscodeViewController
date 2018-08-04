@@ -60,6 +60,8 @@
 @property (nonatomic, assign) NSTimeInterval lockAnimationDuration;
 @property (nonatomic, assign) BOOL hidesBackButton;
 
+@property (nonatomic, assign) LTHPasscodeViewControllerMode mode;
+
 @end
 
 @implementation LTHPasscodeViewController
@@ -216,6 +218,22 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _passcodeTextField.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view setNeedsUpdateConstraints];
+
+    switch (self.mode) {
+        case LTHPasscodeViewControllerModeUnlock:
+            [self _prepareAsLockScreen];
+            break;
+        case LTHPasscodeViewControllerModeEnable:
+            [self _prepareForEnablingPasscode];
+            break;
+        case LTHPasscodeViewControllerModeChange:
+            [self _prepareForChangingPasscode];
+            break;
+        case LTHPasscodeViewControllerModeDisable:
+            [self _prepareForTurningOffPasscode];
+            break;
+    }
+
 }
 
 
@@ -931,15 +949,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _failedAttemptLabel.hidden = NO;
 }
 
-
-- (void)_logoutWasPressed {
-//    // Notify delegate that logout button was pressed
-//    if ([self.delegate respondsToSelector: @selector(logoutButtonWasPressed)]) {
-//        [self.delegate logoutButtonWasPressed];
-//    }
-}
-
-
 - (void)_resetTextFields {
     // If _allowUnlockWithBiometrics == true, but _isUsingBiometrics == false,
     // it means we're just launching, and we don't want the keyboard to show.
@@ -1009,11 +1018,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_resetUIForReEnteringNewPasscode {
     [self _resetTextFields];
     _passcodeTextField.text = @"";
-    // If there's no passcode saved in Keychain,
-    // the user is adding one for the first time, otherwise he's changing his passcode.
-//    NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
-//                                                        andServiceName: _keychainServiceName
-//                                                                 error: nil];
     NSString *savedPasscode = [self _passcode];
     _enterPasscodeLabel.text = savedPasscode.length == 0
             ? self.enterPasscodeString
@@ -1069,7 +1073,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_loadStringDefaults {
     self.enterOldPasscodeString = @"Enter your old passcode";
     self.enterPasscodeString = @"Enter your passcode";
-//    self.enterPasscodeInfoString = @"Passcode info";
     self.enablePasscodeString = @"Enable Passcode";
     self.changePasscodeString = @"Change Passcode";
     self.disablePasscodeString = @"Turn Off Passcode";
@@ -1227,12 +1230,6 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
 - (instancetype)initWithMode:(LTHPasscodeViewControllerMode)mode {
     if ((self = [super initWithNibName:nil bundle:nil])) {
         [self _commonInit];
-        switch (mode) {
-            case LTHPasscodeViewControllerModeUnlock: [self _prepareAsLockScreen]; break;
-            case LTHPasscodeViewControllerModeEnable: [self _prepareForEnablingPasscode]; break;
-            case LTHPasscodeViewControllerModeChange: [self _prepareForChangingPasscode]; break;
-            case LTHPasscodeViewControllerModeDisable: [self _prepareForTurningOffPasscode]; break;
-        }
     }
     return self;
 }
