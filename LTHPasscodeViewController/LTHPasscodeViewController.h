@@ -9,6 +9,8 @@
 @import LocalAuthentication;
 @import UIKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol LTHPasscodeViewControllerDataSource;
 @protocol LTHPasscodeViewControllerDelegate;
 
@@ -26,16 +28,16 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 // MARK: Initialization
 
 /// Initialize with a mode.
-- (nonnull instancetype)initWithMode:(LTHPasscodeViewControllerMode)mode NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMode:(LTHPasscodeViewControllerMode)mode NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable initializer.
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Unavailable initializer.
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)initWithCoder:(nonnull NSCoder *)aDecoder NS_UNAVAILABLE;
 
 /// Unavailable initializer.
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 
 // MARK: Configuration
 
@@ -49,7 +51,7 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 @property (nonatomic, assign) NSInteger digitsCount;
 
 /// The character for the passcode digit.
-@property (nonnull, nonatomic, strong) NSString *passcodeCharacter;
+@property (nonatomic, strong) NSString *passcodeCharacter;
 
 /// The maximum number of failed attempts allowed.
 @property (nonatomic, assign) NSInteger maxNumberOfAllowedFailedAttempts;
@@ -60,40 +62,40 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 // MARK: Strings
 
 /// "Enter your passcode" string.
-@property (nonnull, nonatomic, strong) NSString *enterPasscodeString;
+@property (nonatomic, strong) NSString *enterPasscodeString;
 
 /// "Enter your old passcode" string.
-@property (nonnull, nonatomic, strong) NSString *enterOldPasscodeString;
+@property (nonatomic, strong) NSString *enterOldPasscodeString;
 
 /// "Enter your new passcode" string.
-@property (nonnull, nonatomic, strong) NSString *enterNewPasscodeString;
+@property (nonatomic, strong) NSString *enterNewPasscodeString;
 
 /// "Enable passcode" string.
-@property (nonnull, nonatomic, strong) NSString *enablePasscodeString;
+@property (nonatomic, strong) NSString *enablePasscodeString;
 
 /// "Change passcode" string.
-@property (nonnull, nonatomic, strong) NSString *changePasscodeString;
+@property (nonatomic, strong) NSString *changePasscodeString;
 
 /// "Disable passcode" string.
-@property (nonnull, nonatomic, strong) NSString *disablePasscodeString;
+@property (nonatomic, strong) NSString *disablePasscodeString;
 
 /// "Re-enter your passcode" string.
-@property (nonnull, nonatomic, strong) NSString *reenterPasscodeString;
+@property (nonatomic, strong) NSString *reenterPasscodeString;
 
 /// "Re-enter your new passcode" string.
-@property (nonnull, nonatomic, strong) NSString *reenterNewPasscodeString;
+@property (nonatomic, strong) NSString *reenterNewPasscodeString;
 
 /// "Failed attempts: %@" error string. Must include @c %\@.
-@property (nonnull, nonatomic, strong) NSString *errorFailedAttemptsString;
+@property (nonatomic, strong) NSString *errorFailedAttemptsString;
 
 /// "Cannot reuse" error string.
-@property (nonnull, nonatomic, strong) NSString *errorCannotReuseString;
+@property (nonatomic, strong) NSString *errorCannotReuseString;
 
 /// "Passwords dod not match" error string.
-@property (nonnull, nonatomic, strong) NSString *errorMismatchString;
+@property (nonatomic, strong) NSString *errorMismatchString;
 
 /// The string displayed while user unlocks with Biometrics.
-@property (nonnull, nonatomic, strong) NSString *biometricsDetailsString;
+@property (nonatomic, strong) NSString *biometricsDetailsString;
 
 // MARK: Spacing
 
@@ -115,25 +117,25 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 // MARK: Appearance
 
 /// The background color for the view.
-@property (nonnull, nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *backgroundColor;
 
 /// The font for the top label.
-@property (nonnull, nonatomic, strong) UIFont *labelFont;
+@property (nonatomic, strong) UIFont *labelFont;
 
 /// The text color for the top label.
-@property (nonnull, nonatomic, strong) UIColor *labelTextColor;
+@property (nonatomic, strong) UIColor *labelTextColor;
 
 /// The font for the passcode digits.
-@property (nonnull, nonatomic, strong) UIFont *passcodeFont;
+@property (nonatomic, strong) UIFont *passcodeFont;
 
 /// The text color for the passcode digits.
-@property (nonnull, nonatomic, strong) UIColor *passcodeTextColor;
+@property (nonatomic, strong) UIColor *passcodeTextColor;
 
 /// The background color for the failed attempt label.
-@property (nonnull, nonatomic, strong) UIColor *failedAttemptLabelBackgroundColor;
+@property (nonatomic, strong) UIColor *failedAttemptLabelBackgroundColor;
 
 /// The text color for the failed attempt label.
-@property (nonnull, nonatomic, strong) UIColor *failedAttemptLabelTextColor;
+@property (nonatomic, strong) UIColor *failedAttemptLabelTextColor;
 
 @end
 
@@ -153,9 +155,11 @@ typedef NS_ENUM(NSUInteger, LTHPasscodeViewControllerMode) {
 
 
 /// Called right before the passcode view controller will be dismissed or popped.
-- (void)passcodeViewControllerDidEnterCorrectPasscode:(nonnull LTHPasscodeViewController *)viewController;
+- (void)passcodeViewControllerDidEnterCorrectPasscode:(LTHPasscodeViewController *)viewController;
 
 /// Called when the max number of failed attempts has been reached.
-- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(nonnull LTHPasscodeViewController *)viewController NS_SWIFT_NAME(passcodeViewControllerDidReachMaxNumberOfFailedAttempts(_:));
+- (void)passcodeViewControllerDidReachMaxNumberOfFailedAttempts:(LTHPasscodeViewController *)viewController NS_SWIFT_NAME(passcodeViewControllerDidReachMaxNumberOfFailedAttempts(_:));
 
 @end
+
+NS_ASSUME_NONNULL_END
